@@ -1,18 +1,15 @@
-spring.application.name: iot-sensor-collector
-
-spring.threads.virtual.enabled: true
 spring:
+  application.name: iot-sensor-collector
+  threads.virtual.enabled: true
   cassandra:
     request:
       consistency: quorum
-      timeout: 10s
-    contact-points: ${custom.cassandra.first-contact-point}
+      timeout: 1s
+    contact-points: s-cnode-1:9042
     local-datacenter: datacenter1
   flyway.enabled: false
 
 custom:
-  cassandra:
-    first-contact-point: s-cnode-1:9042
   flyway:
     schemas: flyway_keyspace
     sql-migration-suffixes: .cql

@@ -40,5 +40,4 @@ public interface MeasurementMapper {
     @Mapping(target = "timestamp", source = "id.timestamp")
     @Mapping(target = "sequenceNumber", source = "id.sequenceNumber")
     MeasurementResponse toResponse(MeasurementEntity entity);
-
 }
