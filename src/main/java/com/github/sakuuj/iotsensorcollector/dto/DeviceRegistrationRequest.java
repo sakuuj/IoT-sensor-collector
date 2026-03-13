@@ -14,7 +14,7 @@ public record DeviceRegistrationRequest(
         @NotNull Double maxValue
 ) {
     @AssertTrue(message = "Max value should be greater than or equal to min value")
-    public boolean maxValueToMinValue() {
+    public boolean isMaxValueGtMinValue() {
         return maxValue > minValue;
     }
 }
