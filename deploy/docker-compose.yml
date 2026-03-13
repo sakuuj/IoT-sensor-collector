@@ -1,0 +1,56 @@
+x-common: &common
+  restart: unless-stopped
+  healthcheck:
+    test: ["CMD-SHELL", "nodetool info | grep 'Bootstrap state        : COMPLETED'"] 
+    interval: 1m
+    start_period: 2m
+    timeout: 10s
+    retries: 5
+  networks:
+    - net
+
+name: app
+
+services:
+#  sensor-iot-collector:
+#    <<: *common
+#    build:
+#      context: ../
+#      dockerfile: deploy/gradle-java/Dockerfile
+#    depends_on:
+#      cassandra-node-2:
+#        condition: service_healthy
+#    ports:
+#      - "8080:8080"
+
+
+  seed-cassandra-node:
+    <<: *common
+    build:
+      context: ./cassandra
+    container_name: s-cnode-1
+
+  cassandra-node-1:
+    <<: *common
+    build:
+      context: ./cassandra
+    container_name: cnode-1
+    environment:
+      - "CASSANDRA_SEEDS=s-cnode-1"
+    depends_on:
+      seed-cassandra-node:
+        condition: service_healthy
+
+  cassandra-node-2:
+    <<: *common
+    build:
+      context: ./cassandra
+    container_name: cnode-2
+    environment:
+      - "CASSANDRA_SEEDS=s-cnode-1"
+    depends_on:
+      cassandra-node-1:
+        condition: service_healthy
+
+networks:
+  net:

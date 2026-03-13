@@ -1,0 +1,25 @@
+spring.application.name: iot-sensor-collector
+
+spring.threads.virtual.enabled: true
+spring:
+  cassandra:
+    request:
+      consistency: quorum
+      timeout: 10s
+    contact-points: ${custom.cassandra.first-contact-point}
+    local-datacenter: datacenter1
+  flyway.enabled: false
+
+custom:
+  cassandra:
+    first-contact-point: s-cnode-1:9042
+  flyway:
+    schemas: flyway_keyspace
+    sql-migration-suffixes: .cql
+    locations: classpath:db/migration
+
+logging:
+  level:
+    com.datastax.oss.driver: DEBUG
+    org.springframework.data.cassandra: DEBUG
+    org.flywaydb: DEBUG

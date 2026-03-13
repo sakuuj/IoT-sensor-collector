@@ -1,0 +1,7 @@
+{
+  "name": "device-x",
+  "measurementKind": "gauge",
+  "additionalInfo": "temperature sensor in Celsius",
+  "minValue": "-50",
+  "maxValue": "150"
+}
