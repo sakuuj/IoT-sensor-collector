@@ -1,7 +1,7 @@
 x-common: &common
   restart: unless-stopped
   healthcheck:
-    test: ["CMD-SHELL", "nodetool info | grep 'Bootstrap state        : COMPLETED'"] 
+    test: [ "CMD-SHELL", "nodetool info | grep 'Bootstrap state        : COMPLETED'" ]
     interval: 1m
     start_period: 2m
     timeout: 10s
@@ -12,16 +12,16 @@ x-common: &common
 name: app
 
 services:
-#  sensor-iot-collector:
-#    <<: *common
-#    build:
-#      context: ../
-#      dockerfile: deploy/gradle-java/Dockerfile
-#    depends_on:
-#      cassandra-node-2:
-#        condition: service_healthy
-#    ports:
-#      - "8080:8080"
+  #  sensor-iot-collector:
+  #    <<: *common
+  #    build:
+  #      context: ../
+  #      dockerfile: deploy/gradle-java/Dockerfile
+  #    depends_on:
+  #      cassandra-node-2:
+  #        condition: service_healthy
+  #    ports:
+  #      - "8080:8080"
 
 
   seed-cassandra-node:
@@ -51,6 +51,20 @@ services:
     depends_on:
       cassandra-node-1:
         condition: service_healthy
+
+  tracer:
+    hostname: tracer
+    image: jaegertracing/jaeger:2.16.0
+    volumes:
+      - ./jaeger/jaeger.yaml:/jaeger/config.yaml
+    command:
+      - --config
+      - /jaeger/config.yaml
+    networks:
+      - net
+    ports:
+      - "16686:16686" # UI
+      - "27778:27778" # zPages
 
 networks:
   net:

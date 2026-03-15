@@ -23,17 +23,22 @@ repositories {
 
 val springBootVersion = "3.5.11"
 val mapstructVersion = "1.6.3"
+val flywayCassandraVersion = "12.1.0"
+val cassandraJdbcWrapperVersion = "4.16.2"
 
 dependencies {
     implementation(platform("org.springframework.boot:spring-boot-dependencies:$springBootVersion"))
-    implementation("org.springframework.boot:spring-boot-starter-data-cassandra")
+    implementation("org.mapstruct:mapstruct:${mapstructVersion}")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-validation")
+    implementation("io.micrometer:micrometer-tracing-bridge-otel")
+    implementation("io.opentelemetry:opentelemetry-exporter-otlp")
+    implementation("org.springframework.boot:spring-boot-starter-actuator")
+    implementation("org.springframework.boot:spring-boot-starter-data-cassandra")
     implementation("org.flywaydb:flyway-core")
-    implementation("org.flywaydb:flyway-database-cassandra:12.1.0")
-    implementation("com.ing.data:cassandra-jdbc-wrapper:4.16.2")
     implementation("org.springframework:spring-jdbc")
-    implementation("org.mapstruct:mapstruct:$mapstructVersion")
+    implementation("org.flywaydb:flyway-database-cassandra:$flywayCassandraVersion")
+    implementation("com.ing.data:cassandra-jdbc-wrapper:$cassandraJdbcWrapperVersion")
 
     compileOnly(platform("org.springframework.boot:spring-boot-dependencies:$springBootVersion"))
     compileOnly("org.projectlombok:lombok")

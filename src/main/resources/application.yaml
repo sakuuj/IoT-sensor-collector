@@ -9,14 +9,23 @@ spring:
     local-datacenter: datacenter1
   flyway.enabled: false
 
+management:
+  tracing:
+    sampling:
+      probability: 1
+  otlp:
+    tracing:
+      endpoint: http://tracer:4318/v1/traces
+      transport: http
+
 custom:
   flyway:
     schemas: flyway_keyspace
     sql-migration-suffixes: .cql
     locations: classpath:db/migration
 
-logging:
-  level:
-    com.datastax.oss.driver: DEBUG
-    org.springframework.data.cassandra: DEBUG
-    org.flywaydb: DEBUG
+#logging
+#  level:
+#    com.datastax.oss.driver: DEBUG
+#    org.springframework.data.cassandra: DEBUG
+#    org.flywaydb: DEBUG
