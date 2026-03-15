@@ -1,7 +1,9 @@
 x-common: &common
   restart: unless-stopped
   healthcheck:
-    test: [ "CMD-SHELL", "nodetool info | grep 'Bootstrap state        : COMPLETED'" ]
+    test:
+      - "CMD-SHELL"
+      - "nodetool info | grep 'Bootstrap state        : COMPLETED'"
     interval: 1m
     start_period: 2m
     timeout: 10s
@@ -65,6 +67,15 @@ services:
     ports:
       - "16686:16686" # UI
       - "27778:27778" # zPages
+
+  log-scraper:
+    image: fluent/fluent-bit:4.2
+    volumes:
+      - ./fluent-bit/fluent-bit.yaml:/fluent-bit/etc/fluent-bit.yaml
+      - ../app-logs:/app-logs
+    command:
+      - -c
+      - /fluent-bit/etc/fluent-bit.yaml
 
 networks:
   net:

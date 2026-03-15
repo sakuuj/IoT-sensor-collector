@@ -24,8 +24,14 @@ custom:
     sql-migration-suffixes: .cql
     locations: classpath:db/migration
 
-#logging
-#  level:
-#    com.datastax.oss.driver: DEBUG
-#    org.springframework.data.cassandra: DEBUG
-#    org.flywaydb: DEBUG
+logging:
+  structured.format:
+    console: logstash
+    file: logstash
+  logback:
+    rollingpolicy:
+      max-file-size: 1MB
+      total-size-cap: 5MB
+      file-name-pattern: ${LOG_FILE}.%d{yyyy-MM-dd}.%i
+  file:
+    name: ./app-logs/iot-sensor-app.log

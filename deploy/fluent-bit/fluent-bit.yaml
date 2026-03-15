@@ -1,0 +1,16 @@
+parsers:
+  - name: logstash
+    format: json
+    time_key: '@timestamp'
+    time_format: '%Y-%m-%dT%H:%M:%S.%L'
+
+pipeline:
+  inputs:
+    - name: tail
+      path: /app-logs/*
+      tag: app-logs
+      parser: logstash
+      read_from_head: true
+  outputs:
+    - name: stdout
+      match: app-logs
